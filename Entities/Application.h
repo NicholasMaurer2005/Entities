@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "Renderer.h"
+#include "GameState.h"
 
 
 
@@ -12,7 +13,8 @@ private:
 	//	Private Members
 
 	Window m_window{ 1920, 1080 };
-	Renderer m_renderer
+	Renderer m_renderer;
+	GameState m_gameState;
 
 
 
