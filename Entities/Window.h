@@ -4,10 +4,18 @@
 #include <glfw/glfw3.h>
 #include <chrono>
 
+#include "Input.h"
+
 
 
 class Window
 {
+public:
+
+	//	Public Definitions
+
+
+
 private:
 
 	//	Private Definitions
@@ -44,8 +52,6 @@ private:
 
 	void title(float deltaTime) noexcept;
 
-	void draw() noexcept;
-
 
 
 public:
@@ -54,6 +60,8 @@ public:
 
 	//constructors
 	Window(int width, int height);
+
+	~Window() noexcept;
 
 	Window(const Window&) = delete;
 
@@ -66,12 +74,16 @@ public:
 
 
 	//window
+	void clear();
+
 	float update();
 
 
 
 	//getters
 	bool open() const noexcept;
+
+	Input input() const noexcept;
 
 
 

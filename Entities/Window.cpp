@@ -6,6 +6,7 @@
 #include <utility>
 #include <chrono>
 #include <format>
+#include "Input.h"
 
 
 
@@ -65,15 +66,6 @@ void Window::title(float deltaTime) noexcept
 	}
 }
 
-void Window::draw() noexcept
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glfwSwapBuffers(m_window);
-
-	glfwPollEvents();
-}
-
 
 
 //	Public Methods
@@ -84,6 +76,13 @@ Window::Window(int width, int height) :
 	m_height{ height }
 {
 	initializeGLFW();
+}
+
+Window::~Window() noexcept
+{
+	glfwDestroyWindow(m_window);
+
+	glfwTerminate();
 }
 
 Window::Window(Window&& other) noexcept : 
@@ -103,13 +102,19 @@ Window& Window::operator=(Window&& other) noexcept
 
 
 //window
+void Window::clear()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 float Window::update()
 {
 	const float deltaTime{ getDeltaTime() };
 
 	title(deltaTime);
 
-	draw();
+	glfwSwapBuffers(m_window);
+	glfwPollEvents();
 
 	return deltaTime;
 }
@@ -120,6 +125,11 @@ float Window::update()
 bool Window::open() const noexcept
 {
 	return !glfwWindowShouldClose(m_window);
+}
+
+Input Window::input() const noexcept
+{
+	return Input(m_window);
 }
 
 
