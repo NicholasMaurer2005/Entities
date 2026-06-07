@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.h"
+#include "Renderer.h"
 
 
 
@@ -11,6 +12,7 @@ private:
 	//	Private Members
 
 	Window m_window{ 1920, 1080 };
+	Renderer m_renderer
 
 
 
