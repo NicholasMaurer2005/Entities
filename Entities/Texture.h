@@ -8,6 +8,17 @@
 
 class Texture
 {
+public:
+
+	//	Public Definitions
+
+	enum class Filter : GLint
+	{
+		Nearest = GL_NEAREST,
+		Linear = GL_LINEAR
+	};
+
+
 private:
 
 	//	Private Members
@@ -25,7 +36,7 @@ public:
 
 	~Texture() noexcept;
 
-	Texture(Image image, int minFilter, int magFilter);
+	Texture(Image image, Filter minFilter, Filter magFilter);
 
 	Texture(const Texture&) = delete;
 

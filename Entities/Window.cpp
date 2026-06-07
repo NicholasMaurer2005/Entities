@@ -78,6 +78,13 @@ Window::Window(int width, int height) :
 	initializeGLFW();
 }
 
+Window::~Window() noexcept
+{
+	glfwDestroyWindow(m_window);
+
+	glfwTerminate();
+}
+
 Window::Window(Window&& other) noexcept : 
 	m_window{ std::exchange(other.m_window, nullptr) },
 	m_width{ other.m_width},

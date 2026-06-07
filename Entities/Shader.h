@@ -43,7 +43,7 @@ public:
 
 
 	//setters
-	void bind() const noexcept;
+	void use() const noexcept;
 
 	GLint uniformLocation(std::string_view name) const;
 

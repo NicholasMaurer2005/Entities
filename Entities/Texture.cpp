@@ -10,14 +10,14 @@ Texture::~Texture() noexcept
 	glDeleteTextures(1, &m_handle);
 }
 
-Texture::Texture(Image image, int minFilter, int magFilter)
+Texture::Texture(Image image, Filter minFilter, Filter magFilter)
 {
 	glGenTextures(1, &m_handle);
 
 	bind();
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(minFilter));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(magFilter));
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
@@ -31,6 +31,8 @@ Texture::Texture(Texture&& other) noexcept :
 
 Texture& Texture::operator=(Texture&& other) noexcept
 {
+	glDeleteTextures(1, &m_handle);
+
 	m_handle = std::exchange(other.m_handle, 0);
 
 	return *this;

@@ -14,9 +14,9 @@
 
 struct ShaderDeleter
 {
-	GLint handle;
+	GLuint handle;
 
-	ShaderDeleter(GLint handle) noexcept
+	ShaderDeleter(GLuint handle) noexcept
 		: handle{ handle } {}
 
 	~ShaderDeleter() noexcept
@@ -41,7 +41,7 @@ static std::string readFile(std::string_view source)
 {
 	std::ifstream in{ source.data(), std::ios::binary | std::ios::ate };
 
-	if (!in) throw std::runtime_error(std::format("Unable to open the file {}.", source);
+	if (!in) throw std::runtime_error(std::format("Unable to open the file {}.", source));
 
 	const std::streampos size{ in.tellg() };
 
@@ -54,7 +54,7 @@ static std::string readFile(std::string_view source)
 	return data;
 }
 
-static ShaderDeleter compileShader(std::string_view source, int shaderType)
+static ShaderDeleter compileShader(std::string_view source, GLenum shaderType)
 {
 	ShaderDeleter shader{ glCreateShader(shaderType) };
 
@@ -68,9 +68,9 @@ static ShaderDeleter compileShader(std::string_view source, int shaderType)
 	GLint result{};
 	glGetShaderiv(shader.handle, GL_COMPILE_STATUS, &result);
 
-	if (result == GL_FALSE) throw new std::runtime_error("Unable to compile shader from source {}.", source);
+	if (result == GL_FALSE) throw std::runtime_error(std::format("Unable to compile shader from source {}.", source));
 
-	return std::move(shader);
+	return shader;
 }
 
 
@@ -115,6 +115,8 @@ Shader::Shader(Shader&& other) noexcept :
 
 Shader& Shader::operator=(Shader&& other) noexcept
 {
+	glDeleteProgram(m_handle);
+
 	m_handle = std::exchange(other.m_handle, 0);
 
 	return *this;
@@ -123,6 +125,11 @@ Shader& Shader::operator=(Shader&& other) noexcept
 
 
 //setters
+void Shader::use() const noexcept
+{
+	glUseProgram(m_handle);
+}
+
 GLint Shader::uniformLocation(std::string_view name) const
 {
 	const GLint location{ glGetUniformLocation(m_handle, name.data()) };

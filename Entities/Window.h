@@ -61,6 +61,8 @@ public:
 	//constructors
 	Window(int width, int height);
 
+	~Window() noexcept;
+
 	Window(const Window&) = delete;
 
 	Window(Window&& other) noexcept;

@@ -5,7 +5,15 @@
 #include <glm/glm.hpp>
 
 
+//	Public Methods
 
+//constructors
+Input::Input(GLFWwindow* window) noexcept: 
+	m_window{ window } {}
+
+
+
+//getters
 bool Input::keyDown(Key key) const noexcept
 {
 	return glfwGetKey(m_window, static_cast<int>(key));

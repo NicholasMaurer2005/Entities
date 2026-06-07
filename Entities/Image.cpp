@@ -36,6 +36,8 @@ Image::Image(Image&& other) noexcept :
 
 Image& Image::operator=(Image&& other) noexcept
 {
+	stbi_image_free(m_data);
+
 	m_data = std::exchange(other.m_data, nullptr);
 	m_width = other.m_width;
 	m_height = other.m_height;
