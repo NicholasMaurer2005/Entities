@@ -14,8 +14,10 @@
 //	Public Methods
 
 //constructors
-Image::Image(std::string_view source)
+Image::Image(std::string_view source, bool flipped)
 {
+	stbi_set_flip_vertically_on_load(flipped);
+
 	m_data = stbi_load(source.data(), &m_width, &m_height, &m_channels, 0);
 
 	if (!m_data) throw std::runtime_error(std::format("Unable to find image source {}", source));

@@ -1,8 +1,6 @@
 #pragma once
 
 #include <glew/glew.h>
-#include <glm/glm.hpp>
-#include <string_view>
 
 #include "Image.h"
 

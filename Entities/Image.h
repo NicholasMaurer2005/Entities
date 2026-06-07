@@ -23,7 +23,7 @@ public:
 	//	Public Methods
 
 	//constructors
-	Image(std::string_view source);
+	Image(std::string_view source, bool flipped = true);
 
 	~Image() noexcept;
 
