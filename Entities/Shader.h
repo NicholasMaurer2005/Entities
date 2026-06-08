@@ -23,6 +23,8 @@ public:
 	//static
 	static void uniform(GLuint location, glm::vec2 value) noexcept;
 
+	static void uniform(GLuint location, const glm::mat4& value) noexcept;
+
 
 
 	//constructors

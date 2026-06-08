@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <glm/gtc/type_ptr.hpp>
 
 
 
@@ -84,6 +85,10 @@ void Shader::uniform(GLuint location, glm::vec2 value) noexcept
 	glUniform2f(location, value.x, value.y);
 }
 
+void Shader::uniform(GLuint location, const glm::mat4& value) noexcept
+{
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
 
 
 //constructors

@@ -3,14 +3,13 @@
 layout (location = 0) in vec2 aPosition;
 layout (location = 1) in vec2 aTexCoord;
 
-uniform mat4 project;
 uniform mat4 transform;
 
 out vec2 texCoord;
 
 void main()
 {
-	gl_Position = project * transform * vec4(aPosition, 0.0, 1.0);
+	gl_Position = transform * vec4(aPosition, 0.0, 1.0);
 
 	texCoord = aTexCoord;
 }

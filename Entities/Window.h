@@ -3,6 +3,7 @@
 #include <glew/glew.h>
 #include <glfw/glfw3.h>
 #include <chrono>
+#include <glm/glm.hpp>
 
 #include "Input.h"
 
@@ -39,6 +40,10 @@ private:
 	//fps title
 	float m_frameTime{};
 	float m_frameCount{};
+
+	//projection
+	glm::mat4 m_projection{};
+	bool m_newProjection{ true };
 
 
 
@@ -84,6 +89,14 @@ public:
 	bool open() const noexcept;
 
 	Input input() const noexcept;
+
+	int width() const noexcept;
+
+	int height() const noexcept;
+
+	bool newProjection() noexcept;
+
+	const glm::mat4& projection() const noexcept;
 
 
 

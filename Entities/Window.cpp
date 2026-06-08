@@ -6,6 +6,9 @@
 #include <utility>
 #include <chrono>
 #include <format>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "Input.h"
 
 
@@ -37,6 +40,9 @@ void Window::initializeGLFW()
 
 	glfwSetWindowUserPointer(m_window, this);
 	glfwSetWindowSizeCallback(m_window, windowSizeCallback);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 float Window::getDeltaTime() noexcept
@@ -73,7 +79,8 @@ void Window::title(float deltaTime) noexcept
 //constructors
 Window::Window(int width, int height) : 
 	m_width{ width }, 
-	m_height{ height }
+	m_height{ height },
+	m_projection{ glm::ortho(0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f) }
 {
 	initializeGLFW();
 }
@@ -132,6 +139,26 @@ Input Window::input() const noexcept
 	return Input(m_window);
 }
 
+int Window::width() const noexcept
+{
+	return m_width;
+}
+
+int Window::height() const noexcept
+{
+	return m_height;
+}
+
+bool Window::newProjection() noexcept
+{
+	return std::exchange(m_newProjection, false);
+}
+
+const glm::mat4& Window::projection() const noexcept
+{
+	return m_projection;
+}
+
 
 
 //setters
@@ -141,4 +168,7 @@ void Window::resize(int width, int height) noexcept
 	m_height = height;
 
 	glViewport(0, 0, width, height);
+
+	m_projection = glm::ortho(0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f);
+	m_newProjection = true;
 }
