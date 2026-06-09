@@ -1,4 +1,4 @@
-#include "VertexBuffer.h"
+#include "VertexArray.h"
 
 #include <glew/glew.h>
 #include <utility>
@@ -8,9 +8,9 @@
 //	Public Methods
 
 //static
-VertexBuffer VertexBuffer::create() noexcept
+VertexArray VertexArray::create() noexcept
 {
-	VertexBuffer buffer;
+	VertexArray buffer;
 
 	glGenVertexArrays(1, &buffer.m_handle);
 
@@ -20,15 +20,15 @@ VertexBuffer VertexBuffer::create() noexcept
 
 
 //constructor
-VertexBuffer::~VertexBuffer() noexcept
+VertexArray::~VertexArray() noexcept
 {
 	glDeleteVertexArrays(1, &m_handle);
 }
 
-VertexBuffer::VertexBuffer(VertexBuffer&& other) noexcept :
+VertexArray::VertexArray(VertexArray&& other) noexcept :
 	m_handle{ std::exchange(other.m_handle, 0) } {}
 
-VertexBuffer& VertexBuffer::operator=(VertexBuffer&& other) noexcept
+VertexArray& VertexArray::operator=(VertexArray&& other) noexcept
 {
 	glDeleteVertexArrays(1, &m_handle);
 
@@ -40,7 +40,7 @@ VertexBuffer& VertexBuffer::operator=(VertexBuffer&& other) noexcept
 
 
 //buffer
-void VertexBuffer::bind() const noexcept
+void VertexArray::bind() const noexcept
 {
 	glBindVertexArray(m_handle);
 }

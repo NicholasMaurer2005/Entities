@@ -80,15 +80,16 @@ static ShaderDeleter compileShader(std::string_view source, GLenum shaderType)
 //	Public Methods
 
 //static
-void Shader::uniform(GLuint location, glm::vec2 value) noexcept
+void Shader::uniform(Uniform location, glm::vec2 value) noexcept
 {
-	glUniform2f(location, value.x, value.y);
+	glUniform2f(static_cast<GLint>(location), value.x, value.y);
 }
 
-void Shader::uniform(GLuint location, const glm::mat4& value) noexcept
+void Shader::uniform(Uniform location, const glm::mat4& value) noexcept
 {
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+	glUniformMatrix4fv(static_cast<GLint>(location), 1, GL_FALSE, glm::value_ptr(value));
 }
+
 
 
 //constructors
@@ -135,11 +136,11 @@ void Shader::use() const noexcept
 	glUseProgram(m_handle);
 }
 
-GLint Shader::uniformLocation(std::string_view name) const
+Shader::Uniform Shader::uniformLocation(std::string_view name) const
 {
 	const GLint location{ glGetUniformLocation(m_handle, name.data()) };
 
 	if (location < 0) throw std::runtime_error(std::format("Unable to find uniform {}.", name));
 
-	return location;
+	return static_cast<Uniform>(location);
 }

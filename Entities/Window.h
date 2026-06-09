@@ -33,6 +33,7 @@ private:
 	GLFWwindow* m_window{};
 	int m_width{};
 	int m_height{};
+	bool m_newSize{};
 
 	//delta time
 	Clock::time_point m_lastTime{ Clock::now() };
@@ -40,10 +41,6 @@ private:
 	//fps title
 	float m_frameTime{};
 	float m_frameCount{};
-
-	//projection
-	glm::mat4 m_projection{};
-	bool m_newProjection{ true };
 
 
 
@@ -94,9 +91,7 @@ public:
 
 	int height() const noexcept;
 
-	bool newProjection() noexcept;
-
-	const glm::mat4& projection() const noexcept;
+	bool newSize() noexcept;
 
 
 

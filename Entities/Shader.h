@@ -8,6 +8,14 @@
 
 class Shader
 {
+public:
+
+	//	Public Definitions
+	
+	using Uniform = GLint;
+
+
+
 private:
 
 	//	Private Members
@@ -21,9 +29,9 @@ public:
 	//	Public Methods
 
 	//static
-	static void uniform(GLuint location, glm::vec2 value) noexcept;
+	static void uniform(Uniform location, glm::vec2 value) noexcept;
 
-	static void uniform(GLuint location, const glm::mat4& value) noexcept;
+	static void uniform(Uniform location, const glm::mat4& value) noexcept;
 
 
 
@@ -47,7 +55,7 @@ public:
 	//setters
 	void use() const noexcept;
 
-	GLint uniformLocation(std::string_view name) const;
+	Uniform uniformLocation(std::string_view name) const;
 
 };
 

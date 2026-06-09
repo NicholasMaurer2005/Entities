@@ -34,6 +34,7 @@ private:
 	GLenum m_target{};
 	GLenum m_usage{};
 	std::size_t m_size{};
+	std::size_t m_capacity{};
 
 
 
@@ -62,15 +63,16 @@ public:
 	void bind() const noexcept;
 
 	template<typename T>
-	void buffer(std::span<const T> data)
+	void buffer(std::span<const T> data) noexcept
 	{
 		m_size = data.size_bytes();
+		m_capacity = data.size_bytes();
 
 		glBufferData(static_cast<GLenum>(m_target), m_size, data.data(), m_usage);
 	}
 
 	template<typename T>
-	void bufferSub(std::span<const T> data)
+	void bufferSub(std::span<const T> data) noexcept
 	{
 		m_size = data.size_bytes();
 
@@ -78,7 +80,24 @@ public:
 	}
 
 	template<typename T>
-	GLsizei vertexCount()
+	bool bufferDynamic(std::span<const T> data)
+	{
+		if (data.size_bytes() > m_capacity)
+		{
+			buffer<T>(data);
+
+			return true;
+		}
+		else
+		{
+			bufferSub<T>(data);
+
+			return false;
+		}
+	}
+
+	template<typename T>
+	GLsizei vertexCount() const noexcept
 	{
 		return static_cast<GLsizei>(m_size / sizeof(T));
 	}

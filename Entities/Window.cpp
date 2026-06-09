@@ -77,11 +77,9 @@ void Window::title(float deltaTime) noexcept
 //	Public Methods
 
 //constructors
-Window::Window(int width, int height) : 
-	m_width{ width }, 
-	m_height{ height },
-	m_projection{ glm::ortho(0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f) }
+Window::Window(int width, int height)
 {
+	resize(width, height);
 	initializeGLFW();
 }
 
@@ -149,14 +147,9 @@ int Window::height() const noexcept
 	return m_height;
 }
 
-bool Window::newProjection() noexcept
+bool Window::newSize() noexcept
 {
-	return std::exchange(m_newProjection, false);
-}
-
-const glm::mat4& Window::projection() const noexcept
-{
-	return m_projection;
+	return std::exchange(m_newSize, false);
 }
 
 
@@ -168,7 +161,4 @@ void Window::resize(int width, int height) noexcept
 	m_height = height;
 
 	glViewport(0, 0, width, height);
-
-	m_projection = glm::ortho(0.0f, static_cast<float>(m_width), static_cast<float>(m_height), 0.0f);
-	m_newProjection = true;
 }

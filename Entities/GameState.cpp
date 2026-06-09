@@ -4,6 +4,8 @@
 #include <utility>
 
 #include "Input.h"
+#include "PlayerPipeline.h"
+
 
 
 //	Public Methods
@@ -17,11 +19,19 @@ void GameState::update(Input input, float deltaTime) noexcept
 
 	if (input.keyDown(Input::Key::W)) playerPosition.y += deltaTime * movementSpeed;
 
-	if (input.keyDown(Input::Key::A)) playerPosition.x -= deltaTime * movementSpeed;
+	if (input.keyDown(Input::Key::A))
+	{
+		playerPosition.x -= deltaTime * movementSpeed;
+		m_playerRight = false;
+	}
 
 	if (input.keyDown(Input::Key::S)) playerPosition.y -= deltaTime * movementSpeed;
 
-	if (input.keyDown(Input::Key::D)) playerPosition.x += deltaTime * movementSpeed;
+	if (input.keyDown(Input::Key::D))
+	{
+		playerPosition.x += deltaTime * movementSpeed;
+		m_playerRight = false;
+	}
 
 	if (playerPosition != m_playerPosition)
 	{
@@ -42,4 +52,9 @@ bool GameState::newTransform() noexcept
 const glm::mat4& GameState::transform() const noexcept
 {
 	return m_transform;
+}
+
+int GameState::playerSpriteFrame() const noexcept
+{
+	return m_playerRight;
 }
